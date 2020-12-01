@@ -1,0 +1,21 @@
+{
+  "name": "malinajs-router",
+  "version": "0.1.0",
+  "description": "Declarative router for Malina.js web applications",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "node esbuild",
+    "dev": "node esbuild -w"
+  },
+  "author": "Alexey Schebelev",
+  "license": "MIT",
+  "devDependencies": {
+    "derver": "^0.3.0",
+    "esbuild": "^0.8.17",
+    "malinajs": "^0.6.6",
+    "svelte": "^3.30.0"
+  },
+  "dependencies": {
+    "storik": "^1.0.3"
+  }
+}

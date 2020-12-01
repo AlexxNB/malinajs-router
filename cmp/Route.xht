@@ -1,0 +1,26 @@
+<script>
+    import {createRouteObject} from './../dist';
+
+    export let path = '/*';
+    export let fallback = false;
+    export let redirect = null;
+
+    let route = createRouteObject({
+        path,
+        fallback,
+        redirect,
+        parent: $context.parent,
+        tick: fn => $tick(fn),
+    });
+    $context.parent = route;
+    $context.route = route.meta;
+
+    $onDestroy(route.register());
+
+    $: path, route.makePattern(path);
+    $: route.redirect = redirect;
+</script>
+
+{#if route.active}
+    <slot/>
+{/if}

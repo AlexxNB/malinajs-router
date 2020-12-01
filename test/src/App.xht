@@ -1,0 +1,37 @@
+<script>
+    import {Route} from '@malinajs-router';
+    import Params from './pages/Params.xht'
+    import Error404 from './pages/_404.xht'
+</script>
+
+<a href="/">Main</a> |
+<a href="/page1">Page1</a> |
+<a href="/page1/subpage">Page1 Subpage</a> |
+<a href="/page1/foo">Page1 Subpage unknown</a> |
+<a href="/page2">Page2</a> |
+<a href="/books/konan_doil/sherlok_holmes">Params 1</a> |
+<a href="/books/stanislav_lem/solaris">Params 2</a> |
+<a href="/page3">Exact Redirect</a> |
+<a href="/page3/boo">No redirect</a> |
+<a href="/page3/yandex">Ya Redirect</a> |
+<a href="/page4">Redirect</a> |
+<a href="/page4/boo">Redirect too</a> |
+<a href="/page10">Page unknown</a> 
+
+<div>
+    <Route>
+        <Route path="/">Main</Route>
+        <Route path="/page1/*">
+            <Route path="/">Page1</Route>
+            <Route path="/subpage">Subpage</Route>
+            <Route fallback>Not found subpage</Route>
+        </Route>
+        <Route path="/page2">Page2</Route>
+        <Route path="/page3/boo">Page3</Route>
+        <Route path="/page3/yandex" redirect="https://ya.ru"/>
+        <Route path="/page3" redirect="/page1"/>
+        <Route path="/page4/*" redirect="/page1"/>
+        <Route path="/books/:author/:book"><Params/></Route>
+        <Route fallback><Error404/></Route>
+    </Route>
+</div>
