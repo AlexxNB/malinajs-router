@@ -8,6 +8,11 @@
     "dev": "node esbuild -w"
   },
   "author": "Alexey Schebelev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlexxNB/malinajs-router.git"
+  },
+  "homepage": "https://github.com/AlexxNB/malinajs-router#readme",
   "license": "MIT",
   "devDependencies": {
     "derver": "^0.3.0",
