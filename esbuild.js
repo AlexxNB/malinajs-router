@@ -4,25 +4,28 @@ const {malinaPlugin} = require('malinajs/malina-esbuild');
 
 const DEV = process.argv.includes('-w');
 
-if(DEV){
-    esbuild_lib({minify: false});
-    esbuild_test({minify: false});
-    derver({
-        dir: 'test/public',
-        watch: ['test/public','test/src','cmp','js'],
-        spa: true,
-        onwatch:(lr,item)=>{
-            if(['test/src','cmp','js'].includes(item)){
-                lr.prevent();
-                esbuild_lib({minify: false}, e => lr.error(e.toString(),'Build error'));
-                esbuild_test({minify: false}, e => lr.error(e.toString(),'Build error'));
+(async ()=>{
+    if(DEV){
+        await esbuild_lib({minify: false});
+        await esbuild_test({minify: false});
+        derver({
+            dir: 'test/public',
+            watch: ['test/public','test/src','cmp','js'],
+            spa: true,
+            onwatch:async (lr,item)=>{
+                if(['test/src','cmp','js'].includes(item)){
+                    lr.prevent();
+                    await esbuild_lib({minify: false}, e => lr.error(e.toString(),'Build error'));
+                    await esbuild_test({minify: false}, e => lr.error(e.toString(),'Build error'));
+                }
             }
-        }
-    })
-}else{
-    esbuild_lib();
-    esbuild_test();
-}
+        })
+    }else{
+        await esbuild_lib();
+        await esbuild_test();
+    }
+    
+})();
 
 
 async function esbuild_lib(options={},onerror){
