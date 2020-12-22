@@ -16,9 +16,8 @@
   "license": "MIT",
   "devDependencies": {
     "derver": "^0.3.0",
-    "esbuild": "^0.8.17",
-    "malinajs": "^0.6.6",
-    "svelte": "^3.30.0"
+    "esbuild": "^0.8.26",
+    "malinajs": "^0.6.9"
   },
   "dependencies": {
     "storik": "^1.0.3"
