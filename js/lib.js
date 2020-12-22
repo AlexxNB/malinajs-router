@@ -1,5 +1,6 @@
 import {router} from './router';
 import storik from 'storik';
+import {$context, $onDestroy, $tick} from 'malinajs/runtime.js';
 
 export function createRouteObject(options){
 
@@ -18,7 +19,7 @@ export function createRouteObject(options){
         un:null,
         exact: false,
         pattern: '',
-        parent: options.parent,
+        parent: $context.parent,
         fallback: options.fallback,
         active: false,
         childs: new Set(),
@@ -83,6 +84,10 @@ export function createRouteObject(options){
         route.match(r.path);
     });
     
+    $context.parent = route;
+    $context.route = route.meta;
+
+    $onDestroy(route.register());
 
     return route;
 }

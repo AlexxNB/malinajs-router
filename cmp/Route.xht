@@ -9,13 +9,8 @@
         path,
         fallback,
         redirect,
-        parent: $context.parent,
         tick: fn => $tick(fn),
     });
-    $context.parent = route;
-    $context.route = route.meta;
-
-    $onDestroy(route.register());
 
     $: path, route.makePattern(path);
     $: route.redirect = redirect;
