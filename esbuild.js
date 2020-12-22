@@ -36,7 +36,7 @@ async function esbuild_lib(options={},onerror){
         minify: true,
         bundle: true,
         format: 'esm',
-        external:['./cmp/Route.xht','storik'],
+        external:['./cmp/Route.xht','storik','malinajs/runtime.js'],
         ...options
     };
 
