@@ -20,6 +20,6 @@
     "malinajs": "^0.6.9"
   },
   "dependencies": {
-    "storik": "^1.0.3"
+    "storxy": "^0.1.4"
   }
 }

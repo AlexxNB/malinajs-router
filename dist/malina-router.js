@@ -1,27 +1,29 @@
 // js/router.js
-import storik2 from "storik";
+import {store} from "storxy";
 var router = routerStore();
 function routerStore() {
   let useHash = window.location.pathname === "srcdoc";
   const getLocation = () => {
     return useHash ? getLocationHash() : getLocationHistory();
   };
-  const go = (href, set2) => {
+  const go = (href, store3) => {
     useHash ? window.location.hash = href : history.pushState({}, "", href);
-    set2(getLocation());
+    store3.$ = getLocation();
   };
-  const {subscribe, set} = storik2(getLocation(), () => {
-    window.hashchange = window.onpopstate = () => set(getLocation());
-    const removeListener = linkListener((href) => go(href, set));
+  const locStore = store(getLocation(), () => {
+    window.hashchange = window.onpopstate = () => {
+      locStore.$ = getLocation();
+    };
+    const removeListener = linkListener((href) => go(href, locStore));
     return () => {
       window.hashchange = window.onpopstate = null;
       removeListener();
     };
   });
   return {
-    subscribe,
-    goto: (href) => go(href, set),
-    method: (method) => set(getLocation(useHash = method === "hash"))
+    subscribe: locStore.subscribe,
+    goto: (href) => go(href, locStore),
+    method: (method) => locStore.$ = getLocation(useHash = method === "hash")
   };
 }
 function getLocationHistory() {
@@ -65,18 +67,18 @@ function parseQuery(str) {
 }
 
 // js/lib.js
-import storik4 from "storik";
+import {store as store2} from "storxy";
 import {$context, $onDestroy, $tick} from "malinajs/runtime.js";
 function createRouteObject(options) {
   const type = options.fallback ? "fallbacks" : "childs";
-  const metaStore = storik4({});
+  const metaStore = store2({});
   const meta = {
     url: "",
     query: "",
     params: {},
     subscribe: metaStore.subscribe
   };
-  metaStore.set(meta);
+  metaStore.$ = meta;
   const route = {
     un: null,
     exact: false,
@@ -115,7 +117,7 @@ function createRouteObject(options) {
       if (!route.fallback && params && (!route.exact || route.exact && params.exact)) {
         route.show();
         meta.params = params.params;
-        metaStore.set(meta);
+        metaStore.$ = meta;
       } else {
         route.hide();
       }
@@ -135,7 +137,10 @@ function createRouteObject(options) {
   };
   route.makePattern(options.path);
   route.un = router.subscribe((r) => {
-    meta.url = r.path, meta.query = r.query, meta.params = {}, metaStore.set(meta);
+    meta.url = r.path;
+    meta.query = r.query;
+    meta.params = {};
+    metaStore.$ = meta;
     route.match(r.path);
   });
   $context.parent = route;

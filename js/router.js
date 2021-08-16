@@ -1,4 +1,4 @@
-import storik from 'storik';
+import {store} from 'storxy';
 
 export const router = routerStore();
 
@@ -9,15 +9,15 @@ function routerStore(){
         return useHash ? getLocationHash() : getLocationHistory();
     }
 
-    const go = (href,set) => {
+    const go = (href,store) => {
         useHash ? window.location.hash=href : history.pushState({}, '', href);
-        set(getLocation());
+        store.$ = getLocation();
     }
 
-    const {subscribe,set} = storik(getLocation(), () => {
+    const locStore = store(getLocation(), () => {
 
-        window.hashchange = window.onpopstate = () => set(getLocation());
-        const removeListener = linkListener(href => go(href,set));
+        window.hashchange = window.onpopstate = () => {locStore.$ = getLocation()};
+        const removeListener = linkListener(href => go(href,locStore));
 
         return () => {
             window.hashchange = window.onpopstate = null;
@@ -26,9 +26,9 @@ function routerStore(){
     }); 
 
     return {
-        subscribe,
-        goto: href => go(href,set),
-        method: method => set(getLocation(useHash = method === 'hash'))
+        subscribe: locStore.subscribe,
+        goto: href => go(href,locStore),
+        method: method => locStore.$ = getLocation(useHash = method === 'hash')
     }
 }
 

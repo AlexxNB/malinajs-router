@@ -1,19 +1,19 @@
 import {router} from './router';
-import storik from 'storik';
+import {store} from 'storxy';
 import {$context, $onDestroy, $tick} from 'malinajs/runtime.js';
 
 export function createRouteObject(options){
 
     const type = options.fallback ? 'fallbacks' : 'childs';
 
-    const metaStore = storik({});
+    const metaStore = store({});
     const meta = {
         url: '',
         query: '',
         params:{},
         subscribe: metaStore.subscribe
     };
-    metaStore.set(meta);
+    metaStore.$ = meta;
 
     const route = {
         un:null,
@@ -54,7 +54,7 @@ export function createRouteObject(options){
             if(!route.fallback && params && (!route.exact || (route.exact && params.exact))){
                 route.show();
                 meta.params = params.params;
-                metaStore.set(meta);
+                metaStore.$ = meta;
             }else{
                 route.hide();
             }
@@ -76,10 +76,10 @@ export function createRouteObject(options){
     route.makePattern(options.path);
 
     route.un = router.subscribe(r => {
-        meta.url = r.path,
-        meta.query = r.query,
-        meta.params = {},
-        metaStore.set(meta);
+        meta.url = r.path;
+        meta.query = r.query;
+        meta.params = {};
+        metaStore.$ = meta;
         route.match(r.path);
     });
     
