@@ -21,7 +21,6 @@ export function createRouteObject(options){
         pattern: '',
         parent: $context.parent,
         fallback: options.fallback,
-        active: false,
         childs: new Set(),
         activeChilds: new Set(),
         fallbacks: new Set(),
@@ -38,11 +37,11 @@ export function createRouteObject(options){
             }
         },
         show: ()=>{
-            route.active = true;
+            options.onShow();
             !route.fallback && route.parent && route.parent.activeChilds.add(route);
         },
         hide: ()=>{
-            route.active = false;
+            options.onHide();
             !route.fallback && route.parent && route.parent.activeChilds.delete(route);
         },
         match:(url)=>{
@@ -60,7 +59,7 @@ export function createRouteObject(options){
                 route.hide();
             }
 
-            options.tick(()=>{
+            $tick(()=>{
                 if(params && route.childs.size > 0 && route.activeChilds.size == 0){
                     let obj = route;
                     while(obj.fallbacks.size == 0){

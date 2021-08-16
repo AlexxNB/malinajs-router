@@ -32,7 +32,7 @@ async function esbuild_lib(options={},onerror){
 
     options = {
         entryPoints: ['js/index.js'],
-        outfile: 'dist/index.js',
+        outfile: 'dist/malina-router.js',
         minify: true,
         bundle: true,
         format: 'esm',
