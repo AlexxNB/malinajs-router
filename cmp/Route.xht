@@ -20,5 +20,5 @@
 </script>
 
 {#if active}
-    <slot/>
+    <slot url={route.meta.url} query={route.meta.query} params={route.meta.params} />
 {/if}
