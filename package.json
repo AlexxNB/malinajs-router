@@ -1,6 +1,6 @@
 {
   "name": "malinajs-router",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Declarative router for Malina.js web applications",
   "main": "dist/index.js",
   "scripts": {
