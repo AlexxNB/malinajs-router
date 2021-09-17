@@ -16,7 +16,8 @@
 <a href="/page3/yandex">Ya Redirect</a> |
 <a href="/page4">Redirect</a> |
 <a href="/page4/boo">Redirect too</a> |
-<a href="/page10">Page unknown</a> 
+<a href="/page10">Page unknown</a>  |
+<a href="/pagex11">Similar paths</a> 
 
 <div>
     <Route>
@@ -32,6 +33,10 @@
         <Route path="/page3" redirect="/page1"/>
         <Route path="/page4/*" redirect="/page1"/>
         <Route path="/books/:author/:book"><Params/></Route>
+        <Route path="/pagex/*">Shouldn't be shown</Route>
+        <Route path='/pagex11'>
+            Pagex 11
+        </Route>
         <Route fallback><Error404/></Route>
     </Route>
 </div>

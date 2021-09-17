@@ -106,15 +106,15 @@ export function getParams(pattern,path){
        .join('\\/');
        
     
-       let match = path.match(new RegExp(`^${rx}$`));
-       if(!match) {
-           exact = false;
-           match = path.match(new RegExp(`^${rx}`));
-       }
-       if(!match) return undefined;
-       keys.forEach((key,i) => params[key] = match[i+1]);
-   
-       return {exact,params};
+    let match = path.match(new RegExp(`^${rx}$`));
+    if(!match) {
+        exact = false;
+        match = path.match(new RegExp(`^${rx=='\\/' ? '' : rx}/|^${rx}$`));
+    }
+    if(!match) return undefined;
+    keys.forEach((key,i) => params[key] = match[i+1]);
+
+    return {exact,params};
 }
 
 function formatPath(path){

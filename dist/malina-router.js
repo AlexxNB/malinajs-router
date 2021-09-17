@@ -158,7 +158,7 @@ function getParams(pattern, path) {
   let match = path.match(new RegExp(`^${rx}$`));
   if (!match) {
     exact = false;
-    match = path.match(new RegExp(`^${rx}`));
+    match = path.match(new RegExp(`^${rx == "\\/" ? "" : rx}/|^${rx}$`));
   }
   if (!match)
     return void 0;
