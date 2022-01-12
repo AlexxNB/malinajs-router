@@ -1,7 +1,7 @@
 <script>
-    import {Route} from './../../dist';
-    import Params from './pages/Params.xht'
-    import Error404 from './pages/_404.xht'
+  import {Route} from './../../dist';
+  import Params from './pages/Params.xht'
+  import Error404 from './pages/_404.xht'
 </script>
 
 <a href="/">Main</a> |
@@ -20,23 +20,23 @@
 <a href="/pagex11">Similar paths</a> 
 
 <div>
-    <Route>
-        <Route path="/">Main</Route>
-        <Route path="/page1/*">
-            <Route path="/">Page1</Route>
-            <Route path="/subpage">Subpage</Route>
-            <Route fallback>Not found subpage</Route>
-        </Route>
-        <Route path="/page2">Page2</Route>
-        <Route path="/page3/boo">Page3</Route>
-        <Route path="/page3/yandex" redirect="https://ya.ru"/>
-        <Route path="/page3" redirect="/page1"/>
-        <Route path="/page4/*" redirect="/page1"/>
-        <Route path="/books/:author/:book"><Params/></Route>
-        <Route path="/pagex/*">Shouldn't be shown</Route>
-        <Route path='/pagex11'>
-            Pagex 11
-        </Route>
-        <Route fallback><Error404/></Route>
+  <Route>
+    <Route path="/">Main</Route>
+    <Route path="/page1/*">
+      <Route path="/">Page1</Route>
+      <Route path="/subpage">Subpage</Route>
+      <Route fallback>Not found subpage</Route>
     </Route>
+    <Route path="/page2">Page2</Route>
+    <Route path="/page3/boo">Page3</Route>
+    <Route path="/page3/yandex" redirect="https://ya.ru"/>
+    <Route path="/page3" redirect="/page1"/>
+    <Route path="/page4/*" redirect="/page1"/>
+    <Route path="/books/:author/:book"><Params/></Route>
+    <Route path="/pagex/*">Shouldn't be shown</Route>
+    <Route path='/pagex11'>
+      Pagex 11
+    </Route>
+    <Route fallback><Error404/></Route>
+  </Route>
 </div>

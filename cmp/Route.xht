@@ -1,24 +1,24 @@
 <script>
-    import {createRouteObject} from './../dist/malina-router';
+	import {createRouteObject} from './../dist/malina-router';
 
-    export let path = '/*';
-    export let fallback = false;
-    export let redirect = null;
+	export let path = '/*';
+	export let fallback = false;
+	export let redirect = null;
 
-    let active = false;
+	let active = false;
 
-    const route = createRouteObject({
-        path,
-        fallback,
-        redirect,
-        onShow: ()=>active=true,
-        onHide: ()=>active=false
-    });
+	const route = createRouteObject({
+			path,
+			fallback,
+			redirect,
+			onShow: ()=>active=true,
+			onHide: ()=>active=false
+	});
 
-    $: path, route.makePattern(path);
-    $: route.redirect = redirect;
+	$: path, route.makePattern(path);
+	$: route.redirect = redirect;
 </script>
 
 {#if active}
-    <slot url={route.meta.url} query={route.meta.query} params={route.meta.params} />
+  <slot url={route.meta.url} query={route.meta.query} params={route.meta.params} />
 {/if}
