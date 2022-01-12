@@ -15,11 +15,11 @@
   "homepage": "https://github.com/AlexxNB/malinajs-router#readme",
   "license": "MIT",
   "devDependencies": {
-    "derver": "^0.3.0",
-    "esbuild": "^0.8.26",
-    "malinajs": "^0.6.9"
+    "derver": "^0.5.3",
+    "esbuild": "^0.14.11",
+    "malinajs": "^0.6.52"
   },
   "dependencies": {
-    "storxy": "^0.1.4"
+    "storxy": "^0.1.9"
   }
 }
