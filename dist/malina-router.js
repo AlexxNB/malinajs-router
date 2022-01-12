@@ -34,7 +34,7 @@ function getLocationHistory() {
   };
 }
 function getLocationHash() {
-  const match = String(window.location.hash.slice(1) || "/").match(/^([^?#]+)(?:\?([^#]+))?(?:\#(.+))?$/);
+  const match = String(window.location.hash.slice(1) || "/").match(/^([^?#]+)(?:\?([^#]+))?(?:#(.+))?$/);
   return {
     path: match[1] || "",
     query: parseQuery(match[2] || ""),
