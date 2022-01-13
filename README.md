@@ -4,12 +4,16 @@ Declarative router for [Malina.js](https://malinajs.github.io) web applications.
 
 ## Contents
 - [Usage](#usage)
+- [Links](#links)
 - [Nested routes](#nested-routes)
 - [Redirects](#redirects)
 - [Fallbacks](#fallbacks)
 - [URL metadata](#url-metadata)
   - [Query](#query)
   - [Parameters](#parameters)
+- [Router API](#router-api)
+  - [Programmatic navigation](#programmatic-navigation)
+  - [Navigation method](#navigation-method)
 
 ## Usage
 
@@ -42,6 +46,22 @@ There is only one `Route` component you should to import into your project. Exam
 
   </Route>
 <Route>
+```
+
+## Links
+
+Use common `a` links with needed `href` attribute in your app. They will be handeled by router. You don't need to change `href`s when you use different navigation methods.
+
+```html
+<a href="/">Main page</a>
+<a href="/foo">Foo page</a>
+```
+
+Also you can use hash-based notation, but usualy it is not necessary.
+
+```html
+<a href="/#/">Main page</a>
+<a href="/#/foo">Foo page</a>
 ```
 
 ## Nested routes
@@ -172,4 +192,33 @@ You can get slugs from URL as parameters, just use `:name` notation to define pa
     {/slot}
   </Route>
 </Route>
+```
+
+## Router API
+
+Use `router` import to perform some actions and settings for routing.
+
+```js
+import {router} from 'malinajs-router';
+```
+
+### Programmatic navigation
+
+You can perform user to navigate to any path using `goto` method.
+
+```js
+router.goto('/some/path');
+```
+
+### Navigation method
+
+The `malinajs-router` supports two types of navigation - History API and hash-based routing. B
+
+- **History API** - in this case you'll get common URL path for each page like `/`,`/foo`,`/foo/bar`. Page not reladed when user folows links on a page. But you must do some additional settings on your production server(nginx,apache,derver) to serve all requests to `index.html` file to avoid `404` error, when user starts navigating not from root URL. This method used by default, except when app is loaded inside frame. 
+
+- **Hash-based** - in some cases you need to use this type of routing. In this case URL path will be situated in fragment part of URL only, right after `#` sign. For example, `#/`, `#/foo`,`#/foo/bar`. It is good choice when you can't setup your server to support Histroy API. If your app is loadied inside frame, this method will be active by default, in other cases you may to turn on hash-based method by calling `router.method` in your app's root file, usually `App.xht`.
+
+```js
+import {router} from 'malinajs-router';
+router.method('hash');
 ```
