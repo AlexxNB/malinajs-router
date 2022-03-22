@@ -29,7 +29,7 @@ function routerStore() {
 function getLocationHistory() {
   return {
     path: window.location.pathname,
-    query: parseQuery(window.location.search.slice(1)),
+    query: parseQuery(window.location.href),
     hash: window.location.hash.slice(1)
   };
 }
@@ -37,7 +37,7 @@ function getLocationHash() {
   const match = String(window.location.hash.slice(1) || "/").match(/^([^?#]+)(?:\?([^#]+))?(?:#(.+))?$/);
   return {
     path: match[1] || "",
-    query: parseQuery(match[2] || ""),
+    query: parseQuery(window.location.href),
     hash: match[3] || ""
   };
 }
@@ -53,17 +53,15 @@ function linkListener(go) {
   return () => removeEventListener("click", h);
 }
 function parseQuery(str) {
-  const o = str.split("&").map((p) => p.split("=")).reduce((r, p) => {
-    const name = p[0];
-    if (!name)
-      return r;
-    let value = p.length > 1 ? p[p.length - 1] : true;
-    if (typeof value === "string" && value.includes(","))
-      value = value.split(",");
-    r[name] === void 0 ? r[name] = [value] : r[name].push(value);
-    return r;
-  }, {});
-  return Object.entries(o).reduce((r, p) => (r[p[0]] = p[1].length > 1 ? p[1] : p[1][0], r), {});
+  const url = new URL(str).searchParams;
+    
+  let query = {};
+
+  for(let [name, value] of url) {
+      query[`${name}`] = value;
+  }
+
+  return query;
 }
 
 // js/lib.js
