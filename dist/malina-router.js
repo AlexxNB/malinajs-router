@@ -1,5 +1,5 @@
 // js/router.js
-import {store} from "storxy";
+import { store } from "storxy";
 var router = routerStore();
 function routerStore() {
   let useHash = window.location.pathname === "srcdoc";
@@ -54,19 +54,16 @@ function linkListener(go) {
 }
 function parseQuery(str) {
   const url = new URL(str).searchParams;
-    
   let query = {};
-
-  for(let [name, value] of url) {
-      query[`${name}`] = value;
+  for (let [name, value] of url) {
+    query[`${name}`] = value;
   }
-
   return query;
 }
 
 // js/lib.js
-import {store as store2} from "storxy";
-import {$context, $onDestroy, $tick} from "malinajs/runtime.js";
+import { store as store2 } from "storxy";
+import { $context, $onDestroy, $tick } from "malinajs/runtime.js";
 function createRouteObject(options) {
   const type = options.fallback ? "fallbacks" : "childs";
   const metaStore = store2({});
@@ -83,9 +80,9 @@ function createRouteObject(options) {
     pattern: "",
     parent: $context.parent,
     fallback: options.fallback,
-    childs: new Set(),
-    activeChilds: new Set(),
-    fallbacks: new Set(),
+    childs: /* @__PURE__ */ new Set(),
+    activeChilds: /* @__PURE__ */ new Set(),
+    fallbacks: /* @__PURE__ */ new Set(),
     makePattern(path) {
       route.exact = !path.endsWith("/*");
       route.pattern = formatPath(`${route.parent && route.parent.pattern || ""}${path}`);
@@ -100,8 +97,12 @@ function createRouteObject(options) {
       };
     },
     show: () => {
-      options.onShow();
-      !route.fallback && route.parent && route.parent.activeChilds.add(route);
+      if (route.redirect) {
+        router.goto(route.redirect);
+      } else {
+        options.onShow();
+        !route.fallback && route.parent && route.parent.activeChilds.add(route);
+      }
     },
     hide: () => {
       options.onHide();
@@ -109,9 +110,6 @@ function createRouteObject(options) {
     },
     match: (url) => {
       const params = getParams(route.pattern, url);
-      if (params && route.redirect && (!route.exact || params.exact && route.exact)) {
-        return router.goto(route.redirect);
-      }
       if (!route.fallback && params && (!route.exact || route.exact && params.exact)) {
         route.show();
         meta.params = params.params;
@@ -127,7 +125,9 @@ function createRouteObject(options) {
             if (!obj)
               return;
           }
-          obj && obj.fallbacks.forEach((fb) => fb.show());
+          obj && obj.fallbacks.forEach((fb) => {
+            fb.show();
+          });
         }
       });
     },
@@ -161,7 +161,7 @@ function getParams(pattern, path) {
   if (!match)
     return void 0;
   keys.forEach((key, i) => params[key] = match[i + 1]);
-  return {exact, params};
+  return { exact, params };
 }
 function formatPath(path) {
   path = path.replace(/(^\/#)|(^\/\/#)|(^\/\/)|(\/\*$)|(\/$)/g, "");

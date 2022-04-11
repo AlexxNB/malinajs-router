@@ -37,8 +37,12 @@ export function createRouteObject(options){
       };
     },
     show: ()=>{
-      options.onShow();
-      !route.fallback && route.parent && route.parent.activeChilds.add(route);
+      if(route.redirect){
+        router.goto(route.redirect);
+      } else {
+        options.onShow();
+        !route.fallback && route.parent && route.parent.activeChilds.add(route);
+      }
     },
     hide: ()=>{
       options.onHide();
@@ -46,10 +50,6 @@ export function createRouteObject(options){
     },
     match:(url)=>{
       const params = getParams(route.pattern,url);
-
-      if(params && route.redirect && (!route.exact || (params.exact && route.exact))){
-        return router.goto(route.redirect);
-      }
 
       if(!route.fallback && params && (!route.exact || (route.exact && params.exact))){
         route.show();
@@ -66,7 +66,9 @@ export function createRouteObject(options){
             obj = obj.parent;
             if(!obj) return;
           }
-          obj && obj.fallbacks.forEach(fb => fb.show());
+          obj && obj.fallbacks.forEach(fb => {
+            fb.show();
+          });
         }
       });
     },

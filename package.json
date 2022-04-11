@@ -17,7 +17,7 @@
   "devDependencies": {
     "derver": "^0.5.3",
     "esbuild": "^0.14.11",
-    "malinajs": "^0.6.52"
+    "malinajs": "^0.6.54"
   },
   "dependencies": {
     "storxy": "^0.1.9"

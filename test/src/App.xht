@@ -17,7 +17,8 @@
 <a href="/page4">Redirect</a> |
 <a href="/page4/boo">Redirect too</a> |
 <a href="/page10">Page unknown</a>  |
-<a href="/pagex11">Similar paths</a> 
+<a href="/pagex11">Similar paths</a> |
+<a href="/fbredirect">FB Redirect</a> 
 
 <div>
   <Route>
@@ -38,5 +39,9 @@
       Pagex 11
     </Route>
     <Route fallback><Error404/></Route>
+    <Route path="/fbredirect/*">
+      <Route path="/"><a href="/fbredirect/boo">Go</a></Route>
+      <Route fallback redirect="/fbredirect"/>
+    </Route>
   </Route>
 </div>
