@@ -22,6 +22,7 @@ function routerStore() {
   });
   return {
     subscribe: locStore.subscribe,
+    $$: locStore.subscribe,
     goto: (href) => go(href, locStore),
     method: (method) => locStore.$ = getLocation(useHash = method === "hash")
   };
@@ -140,6 +141,7 @@ function createRouteObject(options) {
     meta.params = {};
     metaStore.$ = meta;
     route.match(r.path);
+    options.force && options.onTrigger();
   });
   $context.parent = route;
   $context.route = route.meta;

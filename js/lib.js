@@ -83,6 +83,7 @@ export function createRouteObject(options){
     meta.params = {};
     metaStore.$ = meta;
     route.match(r.path);
+    options.force && options.onTrigger();
   });
 
   $context.parent = route;

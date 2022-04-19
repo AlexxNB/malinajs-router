@@ -30,6 +30,7 @@ function routerStore(){
 
   return {
     subscribe: locStore.subscribe,
+    $$: locStore.subscribe,
     goto: href => go(href,locStore),
     method: method => locStore.$ = getLocation(useHash = method === 'hash')
   };

@@ -18,7 +18,8 @@
 <a href="/page4/boo">Redirect too</a> |
 <a href="/page10">Page unknown</a>  |
 <a href="/pagex11">Similar paths</a> |
-<a href="/fbredirect">FB Redirect</a> 
+<a href="/fbredirect">FB Redirect</a> |
+<a href="/reload">Force reload</a> 
 
 <div>
   <Route>
@@ -42,6 +43,15 @@
     <Route path="/fbredirect/*">
       <Route path="/"><a href="/fbredirect/boo">Go</a></Route>
       <Route fallback redirect="/fbredirect"/>
+    </Route>
+    <Route path='/reload/*'>
+      <a href="/reload/foo">Foo</a> | <a href="/reload/bar">Bar</a>
+      <Route path="/"/>
+      <Route path="/:param" force>
+        {#slot params}
+        <div *{$element.innerText = params.param}></div>
+        {/slot}
+      </Route>
     </Route>
   </Route>
 </div>

@@ -128,6 +128,18 @@ Fallbacks are bubbling, so when there no route matched under any nonexact subrou
 
 In this example, any URL except `/`,`/foo` or `/bar` will cause fallback showing.  If URL is like `/foo/something` - will be shown fallback `Page not in foo`, but for URL like `/bar/something` will be shown common fallback from upper level, because there no fallbacks on its level.
 
+## Force reload
+
+Sometimes you need that content inside `Route` slot would be reloaded each time the URL changes. For example, when Route's path has parameter components inside slot never be rerendered when paramaeter changes. Add the `force` property to reload `Route` content each time something changes un the URL.
+
+```html
+<Route>
+  <Route path="/foo/:param">
+    <input *{$element.value = ''} />
+  </Route>
+</Route>
+```
+
 ## URL metadata
 
 Each Route component provide additional metadata from URL as slot variables... 
