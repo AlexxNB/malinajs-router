@@ -7,7 +7,6 @@
 	export let force = false;
 
 	let active = false;
-	let trigger = true;
 
 	const route = createRouteObject({
 			path,
@@ -16,7 +15,6 @@
 			redirect,
 			onShow: ()=>active=true,
 			onHide: ()=>active=false,
-			onTrigger: ()=>trigger=!trigger
 	});
 
 	$: path, route.makePattern(path);
@@ -25,9 +23,5 @@
 
 
 {#if active}
-	{#if trigger}
-  	<slot url={route.meta.url} query={route.meta.query} params={route.meta.params}/>
-	{:else}
-		<slot url={route.meta.url} query={route.meta.query} params={route.meta.params}/>
-	{/if}
+	<slot url={route.meta.url} query={route.meta.query} params={route.meta.params}/>
 {/if}

@@ -84,6 +84,7 @@ function createRouteObject(options) {
     childs: /* @__PURE__ */ new Set(),
     activeChilds: /* @__PURE__ */ new Set(),
     fallbacks: /* @__PURE__ */ new Set(),
+    active: false,
     makePattern(path) {
       route.exact = !path.endsWith("/*");
       route.pattern = formatPath(`${route.parent && route.parent.pattern || ""}${path}`);
@@ -103,11 +104,13 @@ function createRouteObject(options) {
       } else {
         options.onShow();
         !route.fallback && route.parent && route.parent.activeChilds.add(route);
+        route.active = true;
       }
     },
     hide: () => {
       options.onHide();
       !route.fallback && route.parent && route.parent.activeChilds.delete(route);
+      route.active = false;
     },
     match: (url) => {
       const params = getParams(route.pattern, url);
@@ -141,7 +144,10 @@ function createRouteObject(options) {
     meta.params = {};
     metaStore.$ = meta;
     route.match(r.path);
-    options.force && options.onTrigger();
+    if (options.force && route.active) {
+      options.onHide();
+      $tick(() => options.onShow());
+    }
   });
   $context.parent = route;
   $context.route = route.meta;
